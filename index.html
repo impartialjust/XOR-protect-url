@@ -6,8 +6,6 @@
     <meta charset="utf-8">
     <script src="/sha256.js"></script>
     <script>
-        var trytime = 0;
-
         function decrypt(str, pwd) {
             if (str == null || str.length < 8) {
                 alert('A salt value could not be extracted from the encrypted message because its length is too short. The message cannot be decrypted.');
@@ -50,7 +48,6 @@
                     location.href = decURL;
                 } else {
                     alert('password incorrect');
-                    trytimes++;
                 }
             }
         }
