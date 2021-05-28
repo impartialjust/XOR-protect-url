@@ -5,41 +5,10 @@
     <title>Log in</title>
     <meta charset="utf-8">
     <script src="/sha256.js"></script>
+    <script src="/deenc.js"></script>
+    <script src="/pwdsh.js"></script>
+    <script src="/private.js"></script>
     <script>
-        function decrypt(str, pwd) {
-            if (str == null || str.length < 8) {
-                alert('A salt value could not be extracted from the encrypted message because its length is too short. The message cannot be decrypted.');
-                return;
-            }
-            if (pwd == null || pwd.length <= 0) {
-                alert('Please enter a password with which to decrypt the message.');
-                return;
-            }
-            var prand = '';
-            for (var i = 0; i < pwd.length; i++) {
-                prand += pwd.charCodeAt(i).toString();
-            }
-            var sPos = Math.floor(prand.length / 5);
-            var mult = parseInt(prand.charAt(sPos) + prand.charAt(sPos * 2) + prand.charAt(sPos * 3) + prand.charAt(sPos * 4) + prand.charAt(sPos * 5));
-            var incr = Math.round(pwd.length / 2);
-            var modu = Math.pow(2, 31) - 1;
-            var salt = parseInt(str.substring(str.length - 8, str.length), 16);
-            str = str.substring(0, str.length - 8);
-            prand += salt;
-            while (prand.length > 10) {
-                prand = (parseInt(prand.substring(0, 10)) + parseInt(prand.substring(10, prand.length))).toString();
-            }
-            prand = (mult * prand + incr) % modu;
-            var enc_chr = '';
-            var enc_str = '';
-            for (var i = 0; i < str.length; i += 2) {
-                enc_chr = parseInt(parseInt(str.substring(i, i + 2), 16) ^ Math.floor((prand / modu) * 255));
-                enc_str += String.fromCharCode(enc_chr);
-                prand = (mult * prand + incr) % modu;
-            }
-            return enc_str;
-        }
-
         function protection(password) {
             encURL = '<encURL>';
             if (password != '' && password != null) {
@@ -49,36 +18,6 @@
                 } else {
                     alert('password incorrect');
                 }
-            }
-        }
-
-        function getInputValue() {
-            var inputVal = document.getElementById("myInput").value;
-            var yes = confirm('Are you using InPrivate windows?');
-
-            if (yes) {
-                protection(inputVal);
-            } else {
-                alert('Please use InPrivate windows.');
-            }
-
-        }
-        //show and hide password
-        function ShowPwd(a) {
-            var x = document.getElementById("myInput");
-            if (x.type === "password") {
-                x.type = "text";
-            } else {
-                x.type = "password";
-            }
-        }
-
-        function HidePwd(a) {
-            var x = document.getElementById("myInput");
-            if (x.type === "text") {
-                x.type = "password";
-            } else {
-                x.type = "text";
             }
         }
     </script>
@@ -91,16 +30,7 @@
     password:<input id="myInput" type="password" value="password please" onFocus="this.value=''" autofocus> Show/Hide
     <input type="radio" name="appear" onclick="ShowPwd(0)"><input type="radio" name="appear" onclick="HidePwd(0)" checked>
     <button id="myBtn" onclick="getInputValue();">Log in</button>
-
-    <script>
-        var inputText = document.getElementById("myInput");
-        inputText.addEventListener("keyup", function(event) {
-            if (event.keyCode === 13) {
-                event.preventDefault();
-                document.getElementById("myBtn").click();
-            }
-        });
-    </script>
+    <script src="/gettxt.js"></script>
     <hr>
     <h2>notice</h2>
     <p>Please enable JavaScript and use Inprivate windows.</p>
