@@ -4,10 +4,10 @@
 <head>
     <title>Log in</title>
     <meta charset="utf-8">
-    <script src="/sha256.js"></script>
-    <script src="/deenc.js"></script>
-    <script src="/pwdsh.js"></script>
-    <script src="/private.js"></script>
+    <script src="/XOR-protect-url/sha256.js"></script>
+    <script src="/XOR-protect-url/deenc.js"></script>
+    <script src="/XOR-protect-url/pwdsh.js"></script>
+    <script src="/XOR-protect-url/private.js"></script>
     <script>
         function protection(password) {
             encURL = '09e26d90dd5aaed67600c5993a3217cf5860f21a98f9f58068d047d81294f1f20113656d';
@@ -30,7 +30,7 @@
     password:<input id="myInput" type="password" value="password please" onFocus="this.value=''" autofocus> Show/Hide
     <input type="radio" name="appear" onclick="ShowPwd(0)"><input type="radio" name="appear" onclick="HidePwd(0)" checked>
     <button id="myBtn" onclick="getInputValue();">Log in</button>
-    <script src="/gettxt.js"></script>
+    <script src="/XOR-protect-url/gettxt.js"></script>
     <hr>
     <h2>Password</h2>
     <p>The password is "impartial just is good" , with out the quote and you will be rediect to https://impartialjust.github.io</p>
