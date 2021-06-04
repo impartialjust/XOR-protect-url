@@ -4,9 +4,9 @@
 Step to install
 ----
 1. First you have to create a file you want to protect with. This file's name must combin random number and letters.
-2. Then you have to go to hash your URL with passwords, you can hash it here <http://web.hku.hk/~jwilam/it/js_encryption.htm> (zh-Hant) or hash it in the file /install/hash.html that you just downloaded.
+2. Then you have to go to hash your URL with passwords, you can hash it here <http://web.hku.hk/~jwilam/it/js_encryption.htm> (zh-Hant) or hash it in the file /install/xor-hash.html that you just downloaded.
 3. Copy the hashed URL into the file "index.html" and replace the \<encURL\> with the hashed URL you just get.
-4. After you finish the part of hashed URL, then you need to hash your URL you created in first step with SHA256. (In case you don't know where to hash it, so you can hash it [here](https://passwordsgenerator.net/sha256-hash-generator/) )
+4. After you finish the part of hashed URL, then you need to hash your URL you created in first step with SHA256. (In case you don't know where to hash it, so you can hash under /install/hash.html)
 5. Finally replace \<sha256\> with the string you get above.
 6. Run the index.html test if it works.
 
