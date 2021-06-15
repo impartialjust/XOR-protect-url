@@ -1,4 +1,196 @@
-<ul>
-    <li><a href="/install/hash.html">Sha256</a></li>
-    <li><a href="/install/hashxor.html">XOR</a></li>
-</ul>
+<!DOCTYPE html>
+
+<head>
+    <title>Hash page</title>
+    <script>
+        var sha256 = function a(b) {
+            function c(a, b) {
+                return a >>> b | a << 32 - b
+            }
+            for (var d, e, f = Math.pow, g = f(2, 32), h = "length", i = "", j = [], k = 8 * b[h], l = a.h = a.h || [], m = a.k = a.k || [], n = m[h], o = {}, p = 2; 64 > n; p++)
+                if (!o[p]) {
+                    for (d = 0; 313 > d; d += p) o[d] = p;
+                    l[n] = f(p, .5) * g | 0, m[n++] = f(p, 1 / 3) * g | 0
+                }
+            for (b += "\x80"; b[h] % 64 - 56;) b += "\x00";
+            for (d = 0; d < b[h]; d++) {
+                if (e = b.charCodeAt(d), e >> 8) return;
+                j[d >> 2] |= e << (3 - d) % 4 * 8
+            }
+            for (j[j[h]] = k / g | 0, j[j[h]] = k, e = 0; e < j[h];) {
+                var q = j.slice(e, e += 16),
+                    r = l;
+                for (l = l.slice(0, 8), d = 0; 64 > d; d++) {
+                    var s = q[d - 15],
+                        t = q[d - 2],
+                        u = l[0],
+                        v = l[4],
+                        w = l[7] + (c(v, 6) ^ c(v, 11) ^ c(v, 25)) + (v & l[5] ^ ~v & l[6]) + m[d] + (q[d] = 16 > d ? q[d] : q[d - 16] + (c(s, 7) ^ c(s, 18) ^ s >>> 3) + q[d - 7] + (c(t, 17) ^ c(t, 19) ^ t >>> 10) | 0),
+                        x = (c(u, 2) ^ c(u, 13) ^ c(u, 22)) + (u & l[1] ^ u & l[2] ^ l[1] & l[2]);
+                    l = [w + x | 0].concat(l), l[4] = l[4] + w | 0
+                }
+                for (d = 0; 8 > d; d++) l[d] = l[d] + r[d] | 0
+            }
+            for (d = 0; 8 > d; d++)
+                for (e = 3; e + 1; e--) {
+                    var y = l[d] >> 8 * e & 255;
+                    i += (16 > y ? 0 : "") + y.toString(16)
+                }
+            return i
+        };
+    </script>
+    <script language="JavaScript">
+        //<!-- This script and many more are available free online at -->
+        //<!-- The JavaScript Source!! http://javascript.internet.com -->
+
+        //<!-- Begin
+        /************************************************************************
+         * Copyright 2001 by Terry Yuen.
+         * Email: kaiser40@yahoo.com
+         * Last update: July 15, 2001.
+         * To implement this script onto your page, copy and paste the Javascript
+         * on this page and place it in the page that you want the encryption
+         * routine available on. Then use the function "encrypt()" to encrypt
+         * data. This function takes two parameters. The first parameter is the
+         * plain text string and the second parameter is the key. The returned
+         * string is the encrypted string. To decrypt the string, use the
+         * function "decrypt()" with the encrypted string as the first parameter
+         * and key as the second parameter. It returns the decrypted string.
+         *
+         * Examples:
+         * var secret = encrypt("My surprise will consist of ....", "password");
+         * document.writeln(secret);
+         *
+         * document.form[0].elements[1].value = decrypt(document.form[0].elements[0].value, "password");
+         *
+         *************************************************************************/
+        //End -->
+
+        function encrypt(str, pwd) {
+            if (pwd == null || pwd.length <= 0) {
+                alert("Please enter a password with which to encrypt the message.");
+                return null;
+            }
+            var prand = "";
+            for (var i = 0; i < pwd.length; i++) {
+                prand += pwd.charCodeAt(i).toString();
+            }
+            var sPos = Math.floor(prand.length / 5);
+            var mult = parseInt(prand.charAt(sPos) + prand.charAt(sPos * 2) + prand.charAt(sPos * 3) + prand.charAt(sPos * 4) + prand.charAt(sPos * 5));
+            var incr = Math.ceil(pwd.length / 2);
+            var modu = Math.pow(2, 31) - 1;
+            if (mult < 2) {
+                alert("Algorithm cannot find a suitable hash. Please choose a different password. \nPossible considerations are to choose a more complex or longer password.");
+                return null;
+            }
+            var salt = Math.round(Math.random() * 1000000000) % 100000000;
+            prand += salt;
+            while (prand.length > 10) {
+                prand = (parseInt(prand.substring(0, 10)) + parseInt(prand.substring(10, prand.length))).toString();
+            }
+            prand = (mult * prand + incr) % modu;
+            var enc_chr = "";
+            var enc_str = "";
+            for (var i = 0; i < str.length; i++) {
+                enc_chr = parseInt(str.charCodeAt(i) ^ Math.floor((prand / modu) * 255));
+                if (enc_chr < 16) {
+                    enc_str += "0" + enc_chr.toString(16);
+                } else enc_str += enc_chr.toString(16);
+                prand = (mult * prand + incr) % modu;
+            }
+            salt = salt.toString(16);
+            while (salt.length < 8) salt = "0" + salt;
+            enc_str += salt;
+            return enc_str;
+        }
+
+        function decrypt(str, pwd) {
+            if (str == null || str.length < 8) {
+                alert("A salt value could not be extracted from the encrypted message because it's length is too short. The message cannot be decrypted.");
+                return;
+            }
+            if (pwd == null || pwd.length <= 0) {
+                alert("Please enter a password with which to decrypt the message.");
+                return;
+            }
+            var prand = "";
+            for (var i = 0; i < pwd.length; i++) {
+                prand += pwd.charCodeAt(i).toString();
+            }
+            var sPos = Math.floor(prand.length / 5);
+            var mult = parseInt(prand.charAt(sPos) + prand.charAt(sPos * 2) + prand.charAt(sPos * 3) + prand.charAt(sPos * 4) + prand.charAt(sPos * 5));
+            var incr = Math.round(pwd.length / 2);
+            var modu = Math.pow(2, 31) - 1;
+            var salt = parseInt(str.substring(str.length - 8, str.length), 16);
+            str = str.substring(0, str.length - 8);
+            prand += salt;
+            while (prand.length > 10) {
+                prand = (parseInt(prand.substring(0, 10)) + parseInt(prand.substring(10, prand.length))).toString();
+            }
+            prand = (mult * prand + incr) % modu;
+            var enc_chr = "";
+            var enc_str = "";
+            for (var i = 0; i < str.length; i += 2) {
+                enc_chr = parseInt(parseInt(str.substring(i, i + 2), 16) ^ Math.floor((prand / modu) * 255));
+                enc_str += String.fromCharCode(enc_chr);
+                prand = (mult * prand + incr) % modu;
+            }
+            return enc_str;
+        }
+    </script>
+
+</head>
+
+<body>
+    <h2>SHA256</h2>
+    <textarea id="input" rows=5>your url</textarea>
+    <input id="button" type="button" value="calculate" />
+    <textarea id="output" rows=5 style="text-align: center"></textarea>
+
+
+    <script>
+        document.getElementById('button').onclick = function() {
+            document.getElementById('output').value = sha256(document.getElementById('input').value);
+        };
+    </script>
+    <h2>XOR</h2>
+    <form name="box">
+        <div style="text-align: center;align-items: center;">
+            <table cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr>
+                        <td colspan="3">
+                            URL<br><textarea cols="40" rows="5" name="ipt" wrap="virtual">Your url</textarea>
+                        </td>
+                    </tr>
+                    <tr height="50">
+                        <td valign="top">
+                            <input type="button" onclick="document.box.opt.value= encrypt(document.box.ipt.value, document.box.pwd.value);" value="Encrypt">
+                        </td>
+                        <td valign="center" text-align="center">
+                            <input type="text" name="pwd" value="password">
+                        </td>
+                        <td valign="bottom" text-align="right">
+                            <input type="button" onclick="document.box.ipt.value= decrypt(document.box.opt.value, document.box.pwd.value);" value="Decrypt">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <textarea cols="40" rows="5" name="opt" wrap="virtual"></textarea>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+    </div>
+    <hr>
+    <ul>
+        <li><a href="/install/hash.html">Sha256</a></li>
+        <li><a href="/install/hashxor.html">XOR</a></li>
+    </ul>
+    <hr>
+    <footer>
+        The part of the SHA is a clone form <a href='https://github.com/geraintluff/sha256/blob/gh-pages/sha256.min.js'>geraintluff's project : sha256</a>. Publish under the PD - Public Domain. Anyone can use this without authorized.<br> The XOR part
+        The XOR part is copy from<a href="https://web.hku.hk/~jwilam/it/js_encryption.htm">https://web.hku.hk/~jwilam/it/js_encryption.htm</a>. </footer>
+</body>
