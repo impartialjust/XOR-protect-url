@@ -4,9 +4,9 @@
 Step to install
 ----
 1. First you have to create a file you want to protect with. This file's name must combin random number and letters.
-2. Then you have to go to hash your URL with passwords, you can hash it here <http://web.hku.hk/~jwilam/it/js_encryption.htm> (zh-Hant) or hash it in the file /install/xor-hash.html that you just downloaded.
+2. Then you have to go to hash your URL with passwords, you can hash it here <http://web.hku.hk/~jwilam/it/js_encryption.htm> (zh-Hant) or hash it in the file /install/index.html that you just downloaded.
 3. Copy the hashed URL into the file "index.html" and replace the \<encURL\> with the hashed URL you just get.
-4. After you finish the part of hashed URL, then you need to hash your URL you created in first step with SHA256. (In case you don't know where to hash it, so you can hash under /install/hash.html)
+4. After you finish the part of hashed URL, then you need to hash your URL you created in first step with SHA256. (In case you don't know where to hash it, so you can hash under /install/index.html)
 5. Finally replace \<sha256\> with the string you get above.
 6. Run the index.html test if it works.
 
@@ -18,6 +18,19 @@ Advanced
  - Is the password and the URL **matched**?
  
 If you still have problem, please report to issues.
+
+Each page usage
+----
+- /install/hash.html : Hash SHA256.
+- /install/hashxor.html : Hash XOR.
+- /install/index.html : The summarize doc of SHA256 and XOR.
+- /deenc.js : Decrypt the hashed value.
+- /gettxt.js : Get txt in input file.
+- /hash.html : The exapmle page.
+- /index.html : The finish example page.
+- /private.js : Make sure you are using private windows.
+- /pwdsh.js : Show and hide the pasword.
+- /sha256.js : Hash the value to make sure it match.
 
 Special Thanks
  
